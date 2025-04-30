@@ -17,7 +17,8 @@
 
 # Check.py explanations
 
-![check py explanation](https://github.com/user-attachments/assets/7f5668e0-2834-4019-af0d-d06fbea3d104)
+![check py explanation](https://github.com/user-attachments/assets/2f6722e9-8e65-4d60-b0cc-45299a4e9738)
+
 
 
 # chatgpt chat Using Weka to test the code(u)
