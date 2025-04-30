@@ -32,9 +32,9 @@ from sklearn.tree     import DecisionTreeClassifier
 
 # ——— CONFIG 
 
-INPUT_CSV = "g_data.csv"
-SEQ_COL   = "sequence"
-LABEL_COL = "class"
+INPUT_CSV = "g_data.csv"     # your input file
+SEQ_COL   = "sequence"       # column name for protein sequence
+LABEL_COL = "class"          # column name for labels (e.g. 'Fold1','Fold2',…)
 TEST_SIZE = 0.20
 RANDOM_SEED = 42
 
@@ -99,11 +99,23 @@ classifiers = {
     "KNN"    : KNeighborsClassifier(n_neighbors=5),
     "SVM"    : SVC(kernel='rbf', C=1.0, probability=False),
     "NB"     : GaussianNB(),
-    "RF"     : RandomForestClassifier(n_estimators=100, random_state=RANDOM_SEED),
+ #   "RF"     : RandomForestClassifier(n_estimators=100, random_state=RANDOM_SEED),
     "Bagging": BaggingClassifier(n_estimators=100, random_state=RANDOM_SEED),
-    "AdaBoost": AdaBoostClassifier(estimator=DecisionTreeClassifier(max_depth=1), n_estimators=50, random_state=RANDOM_SEED),
+  #  "AdaBoost": AdaBoostClassifier(estimator=DecisionTreeClassifier(max_depth=1), n_estimators=50, random_state=RANDOM_SEED),
     "MLP"    : MLPClassifier(hidden_layer_sizes=(100,), max_iter=300, random_state=RANDOM_SEED)
 }
+
+# Add AdaBoost and Random forest with multiple estimators
+for n in [10, 50, 100, 200, 400]:
+    classifiers[f"AdaBoost_{n}"] = AdaBoostClassifier(
+        estimator=DecisionTreeClassifier(max_depth=1),
+        n_estimators=n,
+        random_state=RANDOM_SEED
+    )
+    classifiers[f"RF_{n}"] = RandomForestClassifier(
+        n_estimators=n,
+        random_state=RANDOM_SEED
+    )
 
 # ——— 6–8) TRAIN, EVALUATE, CROSS-VAL ———
 results = {}
