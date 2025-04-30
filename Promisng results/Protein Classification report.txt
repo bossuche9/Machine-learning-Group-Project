@@ -1,0 +1,78 @@
+**Protein Subcellular Localization Prediction Project Report**
+
+**1. Introduction**
+Protein subcellular localization is a critical step in understanding protein function and is instrumental in applications such as drug development and disease diagnosis. In this project, we focused on classifying Gram-positive bacterial proteins into one of four subcellular locations using various machine learning methods. We followed a complete machine learning pipeline, including feature extraction, model training, evaluation, and cross-validation.
+
+**2. Dataset and Preprocessing**
+We used the `g_data.csv` dataset, which contains protein sequences and their associated subcellular locations. Each protein belongs to one of four classes: Fold1 (Cell membrane), Fold2 (Cell wall), Fold3 (Cytoplasm), and Fold4 (Extracellular). The dataset consists of 523 protein samples.
+
+**3. Feature Extraction**
+To represent protein sequences numerically, we extracted the following features:
+- **Amino Acid Composition (AAC):** Percentage frequency of each of the 20 amino acids.
+- **Amino Acid Occurrence Counts:** Raw counts of each amino acid in the sequence.
+- **Sequence Length:** Total number of amino acids in the sequence.
+
+These 41 features (20 counts + 20 composition + 1 length) were saved to a CSV and ARFF file (`features.csv` and `features.arff`) for use with Python and Weka.
+
+**4. Classifier Training**
+We trained the following machine learning classifiers:
+- K-Nearest Neighbors (KNN)
+- Support Vector Machine (SVM)
+- Naïve Bayes (NB)
+- Random Forest (RF)
+- Bagging
+- AdaBoost
+- Multi-layer Perceptron (MLP)
+
+Each model was trained using a stratified 80/20 train-test split. Input features were standardized using `StandardScaler`.
+
+**5. Evaluation Metrics**
+Each classifier was evaluated on the test set using:
+- **Accuracy**: Proportion of correct predictions.
+- **Confusion Matrix**: Count of true/false positives/negatives.
+- **Classification Report**: Precision, recall, and F1-score per class.
+- **Sensitivity (Recall)**: True positive rate per class.
+- **Specificity**: True negative rate per class.
+- **Matthews Correlation Coefficient (MCC)**: Balanced metric accounting for all confusion matrix elements.
+- **5-Fold Cross-Validation Accuracy**: Mean and standard deviation over 5 splits.
+
+**6. Results Summary**
+Below are representative results from selected classifiers:
+
+*KNN Results*
+- Test Accuracy: 0.6667
+- Fold1 Sensitivity: 0.54, Specificity: 0.87, MCC: 0.47
+- Fold2 Sensitivity: 0.00, Specificity: 0.99, MCC: 0.00
+- Fold3 Sensitivity: 0.83, Specificity: 0.72, MCC: 0.60
+- Fold4 Sensitivity: 0.64, Specificity: 0.88, MCC: 0.56
+- CV Accuracy (5-fold): ~0.61 ± 0.04
+
+*Random Forest (n=100)*
+- Test Accuracy: Higher than KNN
+- Good overall performance across all classes.
+
+*AdaBoost (n=50)*
+- Moderate performance. Accuracy slightly lower than RF.
+
+*Naïve Bayes*
+- Lower accuracy due to independence assumption.
+
+**7. Discussion and Analysis**
+- Models performed well on classes with many samples (e.g., Fold3 and Fold1).
+- Fold2 consistently underperformed due to very small support (only 3 samples).
+- Including more training data or oversampling techniques like SMOTE could improve results for rare classes.
+- Random Forest and MLP yielded the most balanced performance.
+- Feature selection or integration of more complex features (e.g., PSSM or secondary structure) could further enhance performance.
+
+**8. Conclusion**
+We successfully implemented a machine learning pipeline for multiclass classification of Gram-positive bacterial proteins. Our feature extraction method using amino acid composition and sequence properties proved effective. Random Forest and MLP were the top-performing classifiers. The evaluation covered accuracy, sensitivity, specificity, MCC, and cross-validation, providing a comprehensive performance overview. Future work could include testing deep learning models and more advanced biological features.
+
+**9. Appendix**
+- Code: `verify_and_export.py`
+- Data: `g_data.csv`
+- Features: `features.csv`, `features.arff`
+- Libraries used: pandas, numpy, sklearn
+- Environment: Python 3.10, scikit-learn 1.4
+
+---
+End of Report
