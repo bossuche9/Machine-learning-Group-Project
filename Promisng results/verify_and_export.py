@@ -157,7 +157,7 @@ for name, clf in classifiers.items():
         "cv_std" : cv_scores.std()
     }
 
-# ——— SUMMARY ———
+# print summary
 print("\n=== SUMMARY ===")
 for name, res in results.items():
     print(f"{name}: test={res['test_acc']:.4f}, CV={res['cv_mean']:.4f} ± {res['cv_std']:.4f}")
