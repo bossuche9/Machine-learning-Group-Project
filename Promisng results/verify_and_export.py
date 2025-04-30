@@ -32,9 +32,9 @@ from sklearn.tree     import DecisionTreeClassifier
 
 # ——— CONFIG 
 
-INPUT_CSV = "g_data.csv"     # your input file
-SEQ_COL   = "sequence"       # column name for protein sequence
-LABEL_COL = "class"          # column name for labels (e.g. 'Fold1','Fold2',…)
+INPUT_CSV = "g_data.csv"
+SEQ_COL   = "sequence"
+LABEL_COL = "class"
 TEST_SIZE = 0.20
 RANDOM_SEED = 42
 
