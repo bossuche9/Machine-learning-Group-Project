@@ -1,5 +1,5 @@
 
-Verify_and export output
+# Verify_and export output
 ![verify screenshot](https://github.com/user-attachments/assets/22d44b8c-a5f4-4f8d-958f-bd43721c32ad)
 
 
@@ -11,8 +11,8 @@ Verify_and export output
 
 ![verify4](https://github.com/user-attachments/assets/67e6ab31-21f6-4979-ad50-12f7b3dc3967)
 
-Check.py oputput (used to chekc that the files verify and export creates features.csv and arrf is acurate)
+# Check.py oputput (used to chekc that the files verify and export creates features.csv and arrf is acurate)
 
 ![check](https://github.com/user-attachments/assets/26d0f51c-1f03-4a3a-a499-2ab7b4e24f63)
 
-chatgpt chat
+# chatgpt chat
