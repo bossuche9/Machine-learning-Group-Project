@@ -32,14 +32,14 @@ from sklearn.tree     import DecisionTreeClassifier
 
 # ——— CONFIG 
 
-INPUT_CSV = "g_data.csv"     # your input file
-SEQ_COL   = "sequence"       # column name for protein sequence
-LABEL_COL = "class"          # column name for labels (e.g. 'Fold1','Fold2',…)
+INPUT_CSV = "g_data.csv"     # input file
+SEQ_COL   = "sequence"       # protein sequence
+LABEL_COL = "class"          # labels ('Fold1','Fold2'...)
 TEST_SIZE = 0.20
 RANDOM_SEED = 42
 
 # ——— 1) LOAD DATA ———
-print("Loading data…")
+print("Loading data...")
 script_dir = os.path.dirname(os.path.abspath(__file__))
 csv_path1 = os.path.join(script_dir, INPUT_CSV)
 df = pd.read_csv(csv_path1, header=None, names=['id', 'class', 'protein_id', 'sequence'])
@@ -47,13 +47,13 @@ sequences = df[SEQ_COL].astype(str)
 labels    = df[LABEL_COL].astype(str)
 
 # ——— 2) FEATURE EXTRACTION ———
-print("Extracting features…")
+print("Extracting features...")
 amino_acids = list("ACDEFGHIKLMNPQRSTVWY")
 
 def extract_features(seq: str):
     seq = seq.upper()
     L = len(seq)
-    counts = [seq.count(aa) for aa in amino_acids]
+    counts = [seq.count(n) for n in amino_acids]
     comps  = [cnt / L for cnt in counts]
     return counts + comps + [L]
 
@@ -61,10 +61,10 @@ X = np.array([extract_features(seq) for seq in sequences])
 y = labels.values
 
 # ——— 3) EXPORT FOR WEKA ———
-print("Exporting features.csv and features.arff for Weka…")
+print("Exporting features.csv and features.arff for Weka...")
 # 3a) CSV
-col_names = [f"count_{aa}" for aa in amino_acids] + \
-            [f"comp_{aa}"  for aa in amino_acids] + \
+col_names = [f"count_{n}" for n in amino_acids] + \
+            [f"comp_{n}"  for n in amino_acids] + \
             ["seq_length", LABEL_COL]
 out_df = pd.DataFrame(np.column_stack((X, y)), columns=col_names)
 out_df.to_csv("features.csv", index=False)
@@ -72,10 +72,10 @@ out_df.to_csv("features.csv", index=False)
 # 3b) ARFF
 with open("features.arff", "w") as f:
     f.write("@RELATION gram_positive\n\n")
-    for aa in amino_acids:
-        f.write(f"@ATTRIBUTE count_{aa} NUMERIC\n")
-    for aa in amino_acids:
-        f.write(f"@ATTRIBUTE comp_{aa}  NUMERIC\n")
+    for n in amino_acids:
+        f.write(f"@ATTRIBUTE count_{n} NUMERIC\n")
+    for n in amino_acids:
+        f.write(f"@ATTRIBUTE comp_{n}  NUMERIC\n")
     f.write("@ATTRIBUTE seq_length NUMERIC\n")
     classes = sorted(df[LABEL_COL].unique())
     cls_list = ",".join(classes)
@@ -85,7 +85,7 @@ with open("features.arff", "w") as f:
         f.write(",".join(map(str, row)) + "\n")
 
 # ——— 4) TRAIN/TEST SPLIT & SCALE ———
-print("Splitting and scaling…")
+print("Splitting and scaling...")
 X_train, X_test, y_train, y_test = train_test_split(
     X, y, test_size=TEST_SIZE,
     stratify=y, random_state=RANDOM_SEED
