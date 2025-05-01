@@ -1,0 +1,80 @@
+**Protein Subcellular Localization Prediction Project Report**
+
+Introduction
+=============================
+Protein subcellular localization is a critical step in understanding protein function and is instrumental in applications such as drug development and disease diagnosis. In this project, we focused on classifying Gram-positive bacterial proteins into one of four subcellular locations using various machine learning methods. We followed a complete machine learning pipeline, including feature extraction, model training, evaluation, and cross-validation.
+=============================
+
+Dataset and Preprocessing
+For this project, we used the `g_data.csv` dataset. This dataset contains protein sequences from gram-negative bacteria and their associated subcellular locations. The dataset contains a total of 523 protein samples.
+Each protein belongs to one of four classes:
+Fold1 (Cell membrane)
+Fold2 (Cell wall)
+Fold3 (Cytoplasm)
+Fold4 (Extracellular)
+
+Feature Extraction
+In order to extract features from the protein sequences, numerical representations of the protein sequences were created. A list of features in which we were able to extract:
+Amino Acid Composition (AAC): Percentage frequency of each of the 20 amino acids.
+Amino Acid Occurrence Counts: Raw counts of each amino acid in the sequence.
+Sequence Length: Total number of amino acids in the sequence.
+
+These 41 features (20 counts + 20 composition + 1 length) were then saved to separate CSV and ARFF file (‘features.csv’ and ‘features.arff’) for use with Python and cross examination/confirmation with Weka.
+
+Classifier Training
+The following machine learning classifiers were trained with the numerical data preprocessed in the previous section:
+K-Nearest Neighbors (KNN)
+Support Vector Machine (SVM)
+Naïve Bayes (NB)
+Random Forest (RF)
+Bagging
+AdaBoost
+Multi-layer Perceptron (MLP)
+
+Each model was trained using a layered 80/20 train-test split; 80 percent of the data used to train the model, 20 percent of the remaining data used to test the model. Input features were standardized using `StandardScaler`.
+
+Evaluation Metrics
+Each classifier was evaluated on the test set using:
+Accuracy: Proportion of correct predictions, true positive predictions.
+Confusion Matrix: Count of true/false positives/negatives for each fold.
+Classification Report: Precision, recall, and F1-score per class.
+Sensitivity (Recall): True positive rate per class (fold).
+Specificity: True negative rate per class (fold).
+Matthews Correlation Coefficient (MCC): Balanced metric accounting for all confusion matrix elements.
+5-Fold Cross-Validation Accuracy: Mean and standard deviation over 5 splits.
+
+Results Summary 
+Below are representative results from selected classifiers:
+
+KNN Results
+Test Accuracy: 0.6667
+Fold1		Sensitivity: 0.54	Specificity: 0.87	MCC: 0.47
+Fold2 		Sensitivity: 0.00	Specificity: 0.99	MCC: 0.00
+Fold3		Sensitivity: 0.83	Specificity: 0.72	MCC: 0.60
+Fold4 		Sensitivity: 0.64	Specificity: 0.88	MCC: 0.56
+CV Accuracy (5-fold): ~0.61 ± 0.04
+=============================================================
+Random Forest (n=100)
+Test Accuracy: Higher than KNN
+Good overall performance across all classes.
+
+AdaBoost (n=50)
+Moderate performance. Accuracy slightly lower than RF.
+
+Naïve Bayes
+Lower accuracy due to independence assumption.
+===============================================================
+
+Discussion and Analysis
+Models performed well on classes with many samples. For example, Fold3 and Fold1 performed better than the remaining folds due to their larger sample sizes. Fold2 produced consistent yet underperforming results within each model. This is likely due to the smaller sample size of this class. As with most projects of this nature, including more training data could improve results for rare classes. The random forest and multi-layer perceptron (MLP) yielded the most balanced performance of the utilized models. A wider selection of features or an integration of more complex features could improve the overall performance of the models used.
+
+Conclusion
+We successfully implemented a machine learning pipeline for multiclass classification of Gram-positive bacterial proteins. Using amino acid composition and sequence properties as extracted features appeared to be effective. Of all the models used, the random forest and multi-layer perceptron models (MLP) were the top-performing classifiers. The evaluation of each of these models covered accuracy, sensitivity, specificity, MCC, and cross-validation. In using these evaluative measures, a comprehensive performance overview of each model has been provided. To continue the work started on projects such as this, one could test differing/more advanced biological features with other deep learning models.
+
+9. Appendix
+Here is a list of all of the resources used for this project.
+Code: `verify_and_export.py`
+Data: `g_data.csv`
+Preprocessed Features: `features.csv`, `features.arff`
+Libraries Used: pandas, numpy, sklearn
+Compatible Coding Environments: Python 3.10, scikit-learn 1.4
